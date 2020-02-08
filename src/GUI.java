@@ -6,7 +6,7 @@ public class GUI {
     private final JFrame window = new JFrame();
     private final JPanel board = new JPanel();
 
-    private final JPanel menu = new JPanel();
+    private final Intersection[][] intersections;
 
     private static final int BOARD_COL = 19;
     private static final int BOARD_ROW = 19;
@@ -15,13 +15,6 @@ public class GUI {
      *
      */
     public GUI() {
-        initializeGUI();
-        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        window.setVisible(true);
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-
-    private final void initializeGUI () {
         window.setLayout(new GridBagLayout());
 
         // Set up components to create board
@@ -36,20 +29,30 @@ public class GUI {
         JLabel board_label = new JLabel(board_icon);
         board_label.setLayout(new GridLayout(BOARD_COL, BOARD_ROW));
 
-        for (int i = 1; i <= BOARD_COL; i++) {
-            for (int j = 1; j <= BOARD_ROW; j++) {
-                JButton button = new JButton();
-                button.setMinimumSize(new Dimension(30, 30));
-                button.setMaximumSize((new Dimension(30, 30)));
-                button.setOpaque(false);
-                button.setContentAreaFilled(false);
-                button.setBorderPainted(false);
-                board_label.add(button);
+        intersections = new Intersection[BOARD_COL][BOARD_ROW];
+
+        // Initialize JButtons on every intersection on the board.
+        for (int y = 0; y < BOARD_COL; y++) {
+            for (int x = 0; x < BOARD_ROW; x++) {
+                Intersection intersection = new Intersection(y, x);
+                intersection.addActionListener(e -> intersection.printPosition());
+
+                intersections[y][x] = intersection;
+                intersections[y][x].setMinimumSize(new Dimension(30, 30));
+                intersections[y][x].setMaximumSize((new Dimension(30, 30)));
+                intersections[y][x].setOpaque(false);
+                intersections[y][x].setContentAreaFilled(false);
+                intersections[y][x].setBorderPainted(false);
+                board_label.add(intersections[y][x]);
             }
         }
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.anchor = GridBagConstraints.CENTER;
         window.add(board_label, c1);
+
+        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        window.setVisible(true);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
