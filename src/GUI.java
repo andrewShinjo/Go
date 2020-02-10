@@ -15,6 +15,7 @@ public class GUI {
      *
      */
     public GUI() {
+        window.setMinimumSize(new Dimension(1000, 1000));
         window.setLayout(new GridBagLayout());
 
         // Set up components to create board
@@ -35,7 +36,6 @@ public class GUI {
         for (int y = 0; y < BOARD_COL; y++) {
             for (int x = 0; x < BOARD_ROW; x++) {
                 Intersection intersection = new Intersection(y, x);
-                intersection.addActionListener(e -> intersection.printPosition());
 
                 intersections[y][x] = intersection;
                 intersections[y][x].setMinimumSize(new Dimension(30, 30));
