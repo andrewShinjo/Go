@@ -1,16 +1,20 @@
 public class GameController {
-    private final GUI gui;
+    private final ConsoleGUI consoleGUI;
     private final Game game;
 
-    /** Initalizes GameController which acts as the middleman
+    /**
+     * Initalizes GameController which acts as the middleman
      * between the graphics and the game.
      *
-     * @param gui = class with everything related to graphics
-     * @param game = class with everything related to the game
+     * @param consoleGUI = class with everything related to drawing game on console
+     * @param game       = class with everything related to the game
      */
-    public GameController (GUI gui, Game game) {
-        this.gui = gui;
+    public GameController(ConsoleGUI consoleGUI, Game game) {
+        this.consoleGUI = consoleGUI;
         this.game = game;
     }
 
+    public void updateView() {
+        consoleGUI.drawBoard(game.get_game_board());
+    }
 }
