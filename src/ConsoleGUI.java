@@ -38,7 +38,7 @@ public class ConsoleGUI {
      *
      * @return
      */
-    public String scanInput() {
+    public char[] scanInput() {
         /** Scan input from user
          *  Check whether first character is alphabetical character
          *  Check whether next one or two characters are 1 through 19
@@ -49,14 +49,21 @@ public class ConsoleGUI {
         Scanner scanner = new Scanner(System.in);
         String move = scanner.nextLine();
 
-        char alpha = Character.toLowerCase(move.charAt(0));
-        if (! (alpha >= 'a' && alpha <= 's'))
-            throw new IllegalArgumentException ("First character must be alphabetical character A~S or a~s.");
+        char output[] = new char[3];
+        output[0] = Character.toLowerCase(move.charAt(0));
 
-        if (move.length() == 2 && move.charAt(1) >= '1' && move.charAt(1) <= '9'
-         || move.length() == 3 && move.charAt(1) == '1' && move.charAt(2) >= '0'
-         && move.charAt(2) <= '9') {
-            return move;
+        if (! (output[0] >= 'a' && output[0] <= 's'))
+            throw new IllegalArgumentException ("First character must be alphabetical character A~S or a~s.");
+        if (move.length() == 2) {
+            output[1] = '0';
+            output[2] = move.charAt(1);
+            if (output[2] >= '1' && output[2] <= '9')
+                return output;
+        } else if (move.length() == 3) {
+            output[1] = move.charAt(1);
+            output[2] = move.charAt(2);
+            if (output[1] == '1' && output[2] >= '0' && output[2] <= '9')
+                return output;
         }
         throw new IllegalArgumentException("Input not in the correct format. " +
                 "First character must be an alphabetical character A~S or a~s. Then, an " +

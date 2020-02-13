@@ -6,6 +6,8 @@ public class Game {
     private boolean black_turn;
     private boolean game_over;
 
+    private char current_stone;
+
 
     /**
      * Creates a 2D char array representation of game board where each index is assigned the value 0.
@@ -15,6 +17,8 @@ public class Game {
         game_board = new char[19][19];
         black_turn = true;
         game_over = false;
+
+        current_stone = 'B';
 
         for (int i = 0; i < COL; i++) {
             for (int j = 0; j < ROW; j++) {
@@ -38,9 +42,24 @@ public class Game {
      */
     public boolean get_turn() { return black_turn; }
 
+    public void insertPiece(int col, int row) {
+        game_board[col][row] = current_stone;
+    }
+
     /** Returns whether the game is over.
      *
      * @return is_game_over = is the game over?
      */
     public boolean is_game_over() { return game_over; }
+
+    /** Switches the stone color from black to white and vice-versa.
+     *
+     */
+    public void switch_stone() {
+        if(current_stone == 'B')
+            current_stone = 'W';
+         else {
+             current_stone = 'B';
+        }
+    }
 }

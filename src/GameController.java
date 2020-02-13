@@ -20,15 +20,22 @@ public class GameController {
      * successfully played, switch player's turn.
      */
     public void play_move() {
-        System.out.println(consoleGUI.scanInput());
+        insert_move(consoleGUI.scanInput());
     }
 
-    /** Returns
+    /** Returns whether game is over or not.
      *
-     * @return
+     * @return if game is over
      */
     public boolean is_game_over() {
         return game.is_game_over();
+    }
+
+    /** Calls game to switch the color of the next stone to be played.
+     *
+     */
+    public void switch_player() {
+        game.switch_stone();
     }
 
     /** Calls the GUI to update the view of the game board's state.
@@ -36,5 +43,21 @@ public class GameController {
      */
     public void update_view() {
         consoleGUI.drawBoard(game.get_game_board());
+    }
+
+    /** Inserts stone onto board location corresponding to the input.
+     *
+     * @param input = location on board to insert move
+     */
+    private void insert_move(char[] input) {
+        assert input.length == 3 : "Input assumed to be two or three characters long.";
+        int row = convert_alpha(input[0]) - 1;
+        int col = Character.getNumericValue(input[1]) * 10 + Character.getNumericValue(input[2]) - 1;
+        game.insertPiece(col, row);
+    }
+
+    private int convert_alpha(char c) {
+        assert (c >= 'a' && c <= 's') : "input should be letter from a to s.";
+        return (c - 96);
     }
 }
