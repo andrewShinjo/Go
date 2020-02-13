@@ -4,6 +4,5 @@ public class Main {
         Game game = new Game();
         GameController gc = new GameController(consoleGUI, game);
 
-        gc.updateView();
     }
 }

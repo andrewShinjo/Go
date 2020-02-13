@@ -14,7 +14,27 @@ public class GameController {
         this.game = game;
     }
 
-    public void updateView() {
+    /** Scans a string input from user to get location of next move.
+     * If either input doesn't correspond to location on game board
+     * or move is illegal, ask for input again. If a move is
+     * successfully played, switch player's turn.
+     */
+    public void play_move() {
+        System.out.println(consoleGUI.scanInput());
+    }
+
+    /** Returns
+     *
+     * @return
+     */
+    public boolean is_game_over() {
+        return game.is_game_over();
+    }
+
+    /** Calls the GUI to update the view of the game board's state.
+     *
+     */
+    public void update_view() {
         consoleGUI.drawBoard(game.get_game_board());
     }
 }

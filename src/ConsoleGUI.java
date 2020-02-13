@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class ConsoleGUI {
 
     /**
@@ -30,5 +32,34 @@ public class ConsoleGUI {
             }
             System.out.println();
         }
+    }
+
+    /** Scans String input that corresponds to where user wants to play.
+     *
+     * @return
+     */
+    public String scanInput() {
+        /** Scan input from user
+         *  Check whether first character is alphabetical character
+         *  Check whether next one or two characters are 1 through 19
+         *  If last two conditions are met, then input can be returned
+         *  Otherwise, input is invalid and throw an error
+         */
+        System.out.print("Enter next move: ");
+        Scanner scanner = new Scanner(System.in);
+        String move = scanner.nextLine();
+
+        char alpha = Character.toLowerCase(move.charAt(0));
+        if (! (alpha >= 'a' && alpha <= 's'))
+            throw new IllegalArgumentException ("First character must be alphabetical character A~S or a~s.");
+
+        if (move.length() == 2 && move.charAt(1) >= '1' && move.charAt(1) <= '9'
+         || move.length() == 3 && move.charAt(1) == '1' && move.charAt(2) >= '0'
+         && move.charAt(2) <= '9') {
+            return move;
+        }
+        throw new IllegalArgumentException("Input not in the correct format. " +
+                "First character must be an alphabetical character A~S or a~s. Then, an " +
+                "integer in the interval [1, 19] must follow it.");
     }
 }
