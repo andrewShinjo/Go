@@ -20,7 +20,12 @@ public class GameController {
      * successfully played, switch player's turn.
      */
     public void play_move() {
-        insert_move(consoleGUI.scanInput());
+        /** Get the move
+         * Convert move to col, row integers
+         * Check if the given col, row is legal to play on
+         */
+       char[] input = consoleGUI.scanInput();
+       int move[] = convert_move(input);
     }
 
     /** Returns whether game is over or not.
@@ -49,15 +54,32 @@ public class GameController {
      *
      * @param input = location on board to insert move
      */
-    private void insert_move(char[] input) {
-        assert input.length == 3 : "Input assumed to be two or three characters long.";
-        int row = convert_alpha(input[0]) - 1;
-        int col = Character.getNumericValue(input[1]) * 10 + Character.getNumericValue(input[2]) - 1;
-        game.insertPiece(col, row);
+    private void insert_move(int[] input) {
+        assert input.length == 2 : "Input should have two integers in an array.";
+        game.insertPiece(input[0], input[1]);
     }
 
+    /** Converts letter in user's move input onto the corresponding integer
+     * on the board's coordinate.
+     *
+     * @param c = letter in user's input
+     * @return number corresponding to letter's location on game board
+     */
     private int convert_alpha(char c) {
         assert (c >= 'a' && c <= 's') : "input should be letter from a to s.";
         return (c - 96);
+    }
+
+    /** Converts move from char array format to two integers.
+     *
+     * @param c = move in char array format
+     * @return output = move represented by two integers
+     */
+    private int[] convert_move(char[] c) {
+        assert c.length == 3 : "Input assumed to be two or three characters long.";
+        int row = convert_alpha(c[0]) - 1;
+        int col = Character.getNumericValue(c[1]) * 10 + Character.getNumericValue(c[2]) - 1;
+        int[] output = {col, row};
+        return output;
     }
 }
