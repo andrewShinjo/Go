@@ -20,12 +20,17 @@ public class GameController {
      * successfully played, switch player's turn.
      */
     public void play_move() {
-        /** Get the move
-         * Convert move to col, row integers
+        /** Scan input from user
+         * Convert input to (column, row) format
          * Check if the given col, row is legal to play on
          */
        char[] input = consoleGUI.scanInput();
-       int move[] = convert_move(input);
+       Pair move = convert_move(input);
+       if(game.get_board().is_move_legal(move)) {
+           System.out.println("Move is legal");
+           insert_move(move);
+           switch_player();
+       }
     }
 
     /** Returns whether game is over or not.
@@ -47,16 +52,15 @@ public class GameController {
      *
      */
     public void update_view() {
-        consoleGUI.drawBoard(game.get_game_board());
+        consoleGUI.drawBoard(game.get_board());
     }
 
     /** Inserts stone onto board location corresponding to the input.
      *
-     * @param input = location on board to insert move
+     * @param pair = location on board to insert move
      */
-    private void insert_move(int[] input) {
-        assert input.length == 2 : "Input should have two integers in an array.";
-        game.insertPiece(input[0], input[1]);
+    private void insert_move(Pair pair) {
+        game.insertPiece(pair);
     }
 
     /** Converts letter in user's move input onto the corresponding integer
@@ -75,11 +79,11 @@ public class GameController {
      * @param c = move in char array format
      * @return output = move represented by two integers
      */
-    private int[] convert_move(char[] c) {
+    private Pair convert_move(char[] c) {
         assert c.length == 3 : "Input assumed to be two or three characters long.";
-        int row = convert_alpha(c[0]) - 1;
-        int col = Character.getNumericValue(c[1]) * 10 + Character.getNumericValue(c[2]) - 1;
-        int[] output = {col, row};
-        return output;
+        int row = convert_alpha(c[0]);
+        int col = Character.getNumericValue(c[1]) * 10 + Character.getNumericValue(c[2]);
+
+        return new Pair (row, col);
     }
 }

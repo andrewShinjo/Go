@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 public class Game {
     private final char[][] game_board;
     public static final int COL = 19;
@@ -9,12 +13,15 @@ public class Game {
     private char current_stone;
     private char other_stone;
 
+    private final Board board;
+
 
     /**
      * Creates a 2D char array representation of game board where each index is assigned the value 0.
      * In this program, a value of 0 in the 2D array denotes an unoccupied position on the game board.
      */
     public Game() {
+        board = new Board();
         game_board = new char[19][19];
         black_turn = true;
         game_over = false;
@@ -22,21 +29,24 @@ public class Game {
         current_stone = 'B';
         other_stone = 'W';
 
+        // Create 2D char array representation of game board
         for (int i = 0; i < COL; i++) {
             for (int j = 0; j < ROW; j++) {
                 game_board[i][j] = 0;
             }
         }
+
     }
 
-    /**
-     * Returns the 2D char array representation of the game board.
+    /** Returns graph representation of game board.
      *
-     * @return game_board = 2D char array representation of game board
+     * @return board = graph representation of game board
      */
-    public char[][] get_game_board() {
-        return game_board;
+    public Board get_board() {
+        return board;
     }
+
+
 
     /** Returns whether it is black's turn or not.
      *
@@ -44,8 +54,12 @@ public class Game {
      */
     public boolean get_turn() { return black_turn; }
 
-    public void insertPiece(int[] move) {
-        game_board[move[0]][move[1]] = current_stone;
+    /** Inserts the current player's piece onto the board.
+     *
+     * @param pair = location on board
+     */
+    public void insertPiece(Pair pair) {
+        board.set_piece(pair, current_stone);
     }
 
     /** Returns whether the game is over.
@@ -68,41 +82,5 @@ public class Game {
         }
     }
 
-    /** Verifies if location user wants to play stone on is empty.
-     *
-     * @param col = the column
-     * @param row = the row
-     * @return if move is valid
-     */
-    public boolean verify_move(int[] move) {
-        /** Is the location empty? If not, then illegal.
-         *  Is the location suicide? If it is, then illegal.
-         */
-        if (! is_location_empty(move)) {
-            return false;
-        }
-        return true;
-    }
-
-    /** Verifies if the given column and row position on game board is empty.
-     *
-     * @param col = column on the game board
-     * @param row = row on the game board
-     * @return if position is empty
-     */
-    private boolean is_location_empty(int[] move) {
-        if (game_board[move[0]][move[1]] != ' ')
-            return false;
-        return true;
-    }
-
-    private boolean is_suicide(int[] move) {
-        int[] up = {move[0] - 1, move[1]};
-        int[] down = {move[0] + 1, move[1]};
-        int[] left = {move[0], move[1] - 1};
-        int[] right = {move[0], move[1] + 1};
-
-        return true;
-    }
 }
 

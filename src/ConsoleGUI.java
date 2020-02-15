@@ -7,7 +7,7 @@ public class ConsoleGUI {
      *
      * @param board = 2D char array representation of game board
      */
-    public void drawBoard(char[][] board) {
+    public void drawBoard(Board board) {
         System.out.print("   ");
         for (int i = 0; i < 19; i++) {
             char letter = (char) ('A' + i);
@@ -15,16 +15,16 @@ public class ConsoleGUI {
         }
         System.out.println();
 
-        for (int i = 0; i < board.length; i++) {
-            if (i < 9) {
-                System.out.print(" " + (i + 1) + " ");
+        for (int y = 1; y <= board.ROW; y++) {
+            if (y <= 9) {
+                System.out.print(" " + y + " ");
             } else {
-                System.out.print((i + 1) + " ");
+                System.out.print(y + " ");
             }
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j] == 0) {
+            for (int x = 1; x <= board.COL; x++) {
+                if (board.get_piece(new Pair(x, y)) == ' ') {
                     System.out.print("[ ]");
-                } else if (board[i][j] == 'B') {
+                } else if (board.get_piece(new Pair(x, y)) == 'B') {
                     System.out.print("[B]");
                 } else {
                     System.out.print("[W]");
